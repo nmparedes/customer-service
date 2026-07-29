@@ -3,12 +3,13 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { CustomerService } from "./application/services/customer.service";
 import { CUSTOMER_REPOSITORY } from "./customer.tokens";
 import { CustomerController } from "./infrastructure/controllers/customer.controller";
+import { InternalCustomerController } from "./infrastructure/controllers/internal-customer.controller";
 import { TypeOrmCustomerRepository } from "./infrastructure/repositories/typeorm-customer.repository";
 import { CustomerOrmEntity } from "./infrastructure/typeorm/customer.orm-entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([CustomerOrmEntity])],
-  controllers: [CustomerController],
+  controllers: [CustomerController, InternalCustomerController],
   providers: [
     CustomerService,
     {
