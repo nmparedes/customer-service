@@ -31,10 +31,10 @@ export class CustomerResponseDto {
   @ApiProperty({ example: "Joao da Silva" })
   name: string;
 
-  @ApiProperty({ example: "52998224725" })
+  @ApiProperty({ example: "11144477735" })
   document: string;
 
-  @ApiProperty({ example: "529.982.247-25" })
+  @ApiProperty({ example: "111.444.777-35" })
   formattedDocument: string;
 
   @ApiProperty({ enum: DocumentType, example: DocumentType.CPF })
