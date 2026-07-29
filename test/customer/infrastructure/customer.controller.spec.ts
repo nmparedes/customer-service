@@ -5,6 +5,7 @@ import {
   createCustomerDto,
   updateCustomerDto,
 } from "../customer.factory";
+import { createCustomerStatusResponse } from "../customer.response.factory";
 
 describe("CustomerController", () => {
   let service: jest.Mocked<CustomerService>;
@@ -33,11 +34,13 @@ describe("CustomerController", () => {
       createdAt: customer.createdAt,
       updatedAt: customer.updatedAt,
     };
+    const statusResponse = createCustomerStatusResponse();
 
     service = {
       create: jest.fn().mockResolvedValue(response),
       findAll: jest.fn().mockResolvedValue({ data: [response], meta: {} }),
       findByDocument: jest.fn().mockResolvedValue(response),
+      findStatusByDocument: jest.fn().mockResolvedValue(statusResponse),
       findById: jest.fn().mockResolvedValue(response),
       update: jest.fn().mockResolvedValue(response),
       delete: jest.fn().mockResolvedValue(undefined),
@@ -52,6 +55,7 @@ describe("CustomerController", () => {
     await controller.create(createDto);
     await controller.findAll({ page: 1, limit: 10 });
     await controller.findByDocument("52998224725");
+    await controller.findStatusByDocument("52998224725");
     await controller.findById("customer-1");
     await controller.update("customer-1", updateDto);
     await controller.delete("customer-1");
@@ -59,6 +63,7 @@ describe("CustomerController", () => {
     expect(service.create).toHaveBeenCalledWith(createDto);
     expect(service.findAll).toHaveBeenCalledWith({ page: 1, limit: 10 });
     expect(service.findByDocument).toHaveBeenCalledWith("52998224725");
+    expect(service.findStatusByDocument).toHaveBeenCalledWith("52998224725");
     expect(service.findById).toHaveBeenCalledWith("customer-1");
     expect(service.update).toHaveBeenCalledWith("customer-1", updateDto);
     expect(service.delete).toHaveBeenCalledWith("customer-1");
