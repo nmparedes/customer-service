@@ -16,7 +16,7 @@ export class CreateCustomerDto {
 
   @ApiProperty({
     description: "Customer CPF or CNPJ.",
-    example: "529.982.247-25",
+    example: "111.444.777-35",
   })
   @IsCpfOrCnpj()
   document: string;
