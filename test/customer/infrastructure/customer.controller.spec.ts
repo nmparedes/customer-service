@@ -1,5 +1,7 @@
+import "reflect-metadata";
 import { CustomerController } from "../../../src/customer/infrastructure/controllers/customer.controller";
 import { CustomerService } from "../../../src/customer/application/services/customer.service";
+import { IS_PUBLIC_KEY } from "../../../src/auth/decorators/public.decorator";
 import {
   createCustomer,
   createCustomerDto,
@@ -67,5 +69,9 @@ describe("CustomerController", () => {
     expect(service.findById).toHaveBeenCalledWith("customer-1");
     expect(service.update).toHaveBeenCalledWith("customer-1", updateDto);
     expect(service.delete).toHaveBeenCalledWith("customer-1");
+  });
+
+  it("keeps customer signup public", () => {
+    expect(Reflect.getMetadata(IS_PUBLIC_KEY, controller.create)).toBe(true);
   });
 });
