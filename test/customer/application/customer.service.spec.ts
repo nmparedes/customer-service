@@ -63,6 +63,14 @@ describe("CustomerService", () => {
     await expect(
       service.findByDocument("529.982.247-25"),
     ).resolves.toHaveProperty("document", "52998224725");
+    await expect(
+      service.findStatusByDocument("529.982.247-25"),
+    ).resolves.toMatchObject({
+      id: customer.id,
+      cpf: "52998224725",
+      active: true,
+      status: "ACTIVE",
+    });
     expect(repository.findByDocument).toHaveBeenCalledWith("52998224725");
   });
 

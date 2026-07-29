@@ -10,6 +10,7 @@ import { Address } from "../../domain/value-objects/address.vo";
 import { Document } from "../../domain/value-objects/document.vo";
 import { CreateCustomerDto } from "../dto/create-customer.dto";
 import { CustomerResponseDto } from "../dto/customer-response.dto";
+import { CustomerStatusResponseDto } from "../dto/customer-status-response.dto";
 import { UpdateCustomerDto } from "../dto/update-customer.dto";
 
 @Injectable()
@@ -55,6 +56,22 @@ export class CustomerService {
       throw new CustomerNotFoundException(document);
     }
     return this.toResponseDto(customer);
+  }
+
+  async findStatusByDocument(document: string): Promise<CustomerStatusResponseDto> {
+    const sanitizedDocument = document.replace(/\D/g, "");
+    const customer =
+      await this.customerRepository.findByDocument(sanitizedDocument);
+    if (!customer) {
+      throw new CustomerNotFoundException(document);
+    }
+
+    return {
+      id: customer.id,
+      cpf: customer.document.rawValue,
+      active: customer.active,
+      status: customer.active ? "ACTIVE" : "INACTIVE",
+    };
   }
 
   async findAll(

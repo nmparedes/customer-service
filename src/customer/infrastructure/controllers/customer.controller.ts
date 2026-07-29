@@ -13,17 +13,20 @@ import {
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiQuery,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiTags,
 } from "@nestjs/swagger";
+import { Public } from "../../../auth/decorators/public.decorator";
 import { PaginatedResponse } from "../../../common/interfaces/paginated-response.interface";
 import { CreateCustomerDto } from "../../application/dto/create-customer.dto";
 import { CustomerListResponseDto } from "../../application/dto/customer-list-response.dto";
 import { CustomerQueryDto } from "../../application/dto/customer-query.dto";
 import { CustomerResponseDto } from "../../application/dto/customer-response.dto";
+import { CustomerStatusResponseDto } from "../../application/dto/customer-status-response.dto";
 import { UpdateCustomerDto } from "../../application/dto/update-customer.dto";
 import { CustomerService } from "../../application/services/customer.service";
 
@@ -57,6 +60,17 @@ export class CustomerController {
     @Param("document") document: string,
   ): Promise<CustomerResponseDto> {
     return this.customerService.findByDocument(document);
+  }
+
+  @Public()
+  @Get("status")
+  @ApiOperation({ summary: "Find customer authentication status by CPF." })
+  @ApiQuery({ name: "cpf", description: "Customer CPF." })
+  @ApiOkResponse({ type: CustomerStatusResponseDto })
+  findStatusByDocument(
+    @Query("cpf") cpf: string,
+  ): Promise<CustomerStatusResponseDto> {
+    return this.customerService.findStatusByDocument(cpf);
   }
 
   @Get(":id")
