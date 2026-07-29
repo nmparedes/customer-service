@@ -37,6 +37,7 @@ export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
   @Post()
+  @Public()
   @ApiOperation({ summary: "Create a customer." })
   @ApiCreatedResponse({ type: CustomerResponseDto })
   create(@Body() dto: CreateCustomerDto): Promise<CustomerResponseDto> {
